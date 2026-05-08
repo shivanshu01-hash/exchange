@@ -1,0 +1,1 @@
+export default function ProfitLossPage() { return <section><h1 className="text-2xl font-black">Profit/Loss</h1><div className="mt-5 rounded-2xl border border-line bg-panel p-6">Market-wise realized and unrealized P/L with commission impact.</div></section>; }

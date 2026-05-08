@@ -1,0 +1,2 @@
+export default function AdminPage() { return <section><h1 className="text-2xl font-black">Admin Panel</h1><div className="mt-5 grid gap-4 md:grid-cols-3"><Card label="Suspend Markets" /><Card label="Settle Winners" /><Card label="Risk Dashboard" /></div></section>; }
+function Card({ label }: { label: string }) { return <div className="rounded-2xl border border-line bg-panel p-5 font-bold">{label}</div>; }

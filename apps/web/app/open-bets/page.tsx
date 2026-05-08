@@ -1,0 +1,2 @@
+export default function OpenBetsPage() { return <Table title="Open Bets" rows={["Unmatched BACK 1.90 x 100", "Part matched LAY 2.20 x 50"]} />; }
+function Table({ title, rows }: { title: string; rows: string[] }) { return <section><h1 className="text-2xl font-black">{title}</h1><div className="mt-5 rounded-2xl border border-line bg-panel">{rows.map((row) => <div key={row} className="border-b border-line p-4 last:border-0">{row}</div>)}</div></section>; }

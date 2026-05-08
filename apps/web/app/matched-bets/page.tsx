@@ -1,0 +1,1 @@
+export default function MatchedBetsPage() { return <section><h1 className="text-2xl font-black">Matched Bets</h1><div className="mt-5 rounded-2xl border border-line bg-panel p-6 text-slate-300">Matched trades, average price, and settled status appear here.</div></section>; }
