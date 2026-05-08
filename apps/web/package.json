@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
+    "prebuild": "cd ../../packages/shared && npm run build",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
