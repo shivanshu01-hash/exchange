@@ -1,7 +1,7 @@
 {
   "buildCommand": "npm run build",
   "installCommand": "npm install",
-  "outputDirectory": "apps/api/dist",
+  "outputDirectory": "dist",
   "framework": null,
   "regions": ["sin1"],
   "env": {

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "npm run build"
+  },
+  "deployments": [
+    {
+      "name": "api",
+      "rootDirectory": "./apps/api",
+      "buildCommand": "npm run build",
+      "startCommand": "npm start",
+      "healthcheckPath": "/api/health",
+      "env": {
+        "PORT": {
+          "autofill": true
+        },
+        "NODE_ENV": "production",
+        "WEB_ORIGIN": {
+          "generator": "url",
+          "pattern": "https://{{services.web.url}}"
+        }
+      }
+    },
+    {
+      "name": "web",
+      "rootDirectory": "./apps/web",
+      "buildCommand": "npm run build",
+      "startCommand": "npm start",
+      "env": {
+        "NEXT_PUBLIC_API_URL": {
+          "generator": "url",
+          "pattern": "https://{{services.api.url}}"
+        },
+        "NEXT_PUBLIC_WS_URL": {
+          "generator": "url",
+          "pattern": "https://{{services.api.url}}"
+        }
+      }
+    }
+  ]
+}

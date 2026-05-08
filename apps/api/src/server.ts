@@ -73,8 +73,8 @@ app.get("/api/health/socket", (req, res) => {
 const stream = new BetfairStreamClient({ marketIds: [] });
 stream.connect();
 
-server.listen(env.API_PORT, () => {
-  console.log(`API server listening on ${env.API_PORT}`);
+server.listen(env.PORT, () => {
+  console.log(`API server listening on ${env.PORT}`);
   console.log(`WebSocket server initialized with optimized transport`);
   console.log(`Polling fallback available at /api/poll/market/:marketId`);
 });

@@ -6,7 +6,8 @@ config({ path: "../../.env" });
 
 const schema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-  API_PORT: z.coerce.number().default(4000),
+  PORT: z.coerce.number().default(4000),
+  API_PORT: z.coerce.number().optional(),
   WEB_ORIGIN: z.string().default("http://localhost:3000"),
   JWT_SECRET: z.string().min(24),
   MONGODB_URI: z.string().url().or(z.string().startsWith("mongodb://")),
@@ -20,4 +21,9 @@ const schema = z.object({
   MAX_MARKET_EXPOSURE: z.coerce.number().default(1000000)
 });
 
-export const env = schema.parse(process.env);
+const rawEnv = schema.parse(process.env);
+
+export const env = {
+  ...rawEnv,
+  PORT: rawEnv.API_PORT ?? rawEnv.PORT,
+};

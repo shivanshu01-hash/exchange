@@ -5,7 +5,7 @@
 
 // API Configuration
 export const API_CONFIG = {
-  BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001',
+  BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000',
   TIMEOUT: parseInt(process.env.NEXT_PUBLIC_API_TIMEOUT || '10000'),
   RETRY_ATTEMPTS: parseInt(process.env.NEXT_PUBLIC_API_RETRY_ATTEMPTS || '3'),
   RETRY_DELAY: parseInt(process.env.NEXT_PUBLIC_API_RETRY_DELAY || '1000'),
@@ -13,7 +13,7 @@ export const API_CONFIG = {
 
 // WebSocket Configuration
 export const SOCKET_CONFIG = {
-  URL: process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:3001',
+  URL: process.env.NEXT_PUBLIC_WS_URL || 'http://localhost:4000',
   RECONNECT_INTERVAL: parseInt(process.env.NEXT_PUBLIC_WS_RECONNECT_INTERVAL || '5000'),
   MAX_RECONNECT_ATTEMPTS: parseInt(process.env.NEXT_PUBLIC_WS_MAX_RECONNECT_ATTEMPTS || '10'),
   PING_INTERVAL: parseInt(process.env.NEXT_PUBLIC_WS_PING_INTERVAL || '30000'),
