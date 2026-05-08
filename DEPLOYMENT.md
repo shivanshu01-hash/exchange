@@ -1,5 +1,34 @@
 # Railway Deployment Guide
 
+## Quick Reference: Where to Get Required Values
+
+### 1. JWT_SECRET (Critical Security)
+```bash
+# Generate locally with Node.js:
+node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+
+# Output example: a1b2c3d4e5f6... (128 hex characters)
+# Copy the output and use as JWT_SECRET value
+```
+
+### 2. MONGODB_URI (Database Connection)
+**Options:**
+- **Local**: `mongodb://localhost:27017/odds_exchange` (requires MongoDB installed)
+- **Railway**: Add MongoDB service → Copy connection string
+- **MongoDB Atlas**: Create free cluster → Get connection string
+
+### 3. REDIS_URL (Cache Connection)
+**Options:**
+- **Local**: `redis://localhost:6379` (requires Redis installed)
+- **Railway**: Add Redis service → Copy connection URL
+- **Redis Cloud**: Create free instance → Get connection URL
+
+### 4. Other API Keys (Optional)
+- **RAPIDAPI_KEY**: Get from https://rapidapi.com (cricket data API)
+- **BETFAIR_APP_KEY**: Get from Betfair API documentation
+
+---
+
 This guide provides step-by-step instructions for deploying the Cricket Trading Platform on Railway.
 
 ## Project Overview
@@ -42,12 +71,89 @@ BETFAIR_SESSION_TOKEN=your-betfair-session-token
 ```
 
 ### Generate Secure Secrets
+
+#### Option 1: Using Node.js (Recommended)
 ```bash
-# Generate JWT_SECRET (64 bytes)
+# Generate JWT_SECRET (64 bytes = 128 hex characters)
 node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 
-# Generate ENCRYPTION_KEY (32 bytes)
+# Generate ENCRYPTION_KEY (32 bytes = 64 hex characters)
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+#### Option 2: Using OpenSSL
+```bash
+# Generate JWT_SECRET
+openssl rand -hex 64
+
+# Generate ENCRYPTION_KEY
+openssl rand -hex 32
+```
+
+#### Option 3: Quick One-liner for Windows (PowerShell)
+```powershell
+# Generate JWT_SECRET
+[System.Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($bytes = New-Object byte[] 64); -join ($bytes | % {$_.ToString("x2")})
+
+# Generate ENCRYPTION_KEY
+[System.Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($bytes = New-Object byte[] 32); -join ($bytes | % {$_.ToString("x2")})
+```
+
+### Local Database Setup
+
+#### 1. MongoDB Local Installation
+```bash
+# Install MongoDB Community Edition (Windows)
+# Download from: https://www.mongodb.com/try/download/community
+
+# Start MongoDB service (Windows)
+net start MongoDB
+
+# Default connection string for local MongoDB
+MONGODB_URI=mongodb://localhost:27017/odds_exchange
+```
+
+#### 2. Redis Local Installation
+```bash
+# Install Redis on Windows via WSL or Redis for Windows
+# Download from: https://github.com/microsoftarchive/redis/releases
+
+# Start Redis server (default port 6379)
+redis-server
+
+# Default connection string for local Redis
+REDIS_URL=redis://localhost:6379
+```
+
+#### 3. Using Docker (Easiest)
+```bash
+# Create docker-compose.local.yml
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=odds_exchange
+  
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+
+volumes:
+  mongodb_data:
+
+# Start databases
+docker-compose -f docker-compose.local.yml up -d
+
+# Connection strings for Docker setup
+MONGODB_URI=mongodb://localhost:27017/odds_exchange
+REDIS_URL=redis://localhost:6379
 ```
 
 ## Step 2: Deploy to Railway
